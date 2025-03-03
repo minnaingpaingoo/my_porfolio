@@ -51,7 +51,7 @@ const List<Map> skillItems =[
     "title": "Java",
   },
   {
-    "img": "assets/kotlin.png",
+    "img": "assets/kotlin.jpeg",
     "title": "Kotlin",
   },
   {

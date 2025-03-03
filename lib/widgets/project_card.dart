@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:my_porfolio/constants/colors.dart';
 import 'package:my_porfolio/utils/project_utils.dart';
-import 'dart:js' as js;
+import 'package:url_launcher/url_launcher.dart'; // Add this import
 
 class ProjectCardWidget extends StatelessWidget {
   const ProjectCardWidget({
@@ -16,7 +15,7 @@ class ProjectCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      height: 290,
+      height: 350,
       width: 260,
       decoration: BoxDecoration(
         color: CustomColor.bgLight2,
@@ -74,8 +73,10 @@ class ProjectCardWidget extends StatelessWidget {
                 const Spacer(),
                 if(project.androidLink != null)
                   InkWell(
-                    onTap:(){
-                      js.context.callMethod('open', [project.androidLink]);
+                    onTap:() async {
+                        if (project.androidLink != null && await canLaunchUrl(Uri.parse(project.androidLink!))) {
+                        await launchUrl(Uri.parse(project.androidLink!));
+                        }
                     },
                     child: Image.asset("assets/android_icon.png", width: 19),
                   ),
@@ -83,8 +84,10 @@ class ProjectCardWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 6),
                     child: InkWell(
-                      onTap:(){
-                        js.context.callMethod('open', [project.iosLink]);
+                      onTap:() async {
+                        if (project.iosLink != null && await canLaunchUrl(Uri.parse(project.iosLink!))) {
+                          await launchUrl(Uri.parse(project.iosLink!));
+                        }
                       },
                       child: Image.asset("assets/ios.png", width: 19),
                     ),
@@ -93,8 +96,10 @@ class ProjectCardWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 6),
                     child: InkWell(
-                      onTap:(){
-                        js.context.callMethod('open', [project.webLink]);
+                      onTap:() async {
+                        if (project.webLink != null && await canLaunchUrl(Uri.parse(project.webLink!))) {
+                          await launchUrl(Uri.parse(project.webLink!));
+                        }
                       },
                       child: Image.asset("assets/web.png", width: 19),
                     ),
@@ -103,8 +108,10 @@ class ProjectCardWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 6),
                     child: InkWell(
-                      onTap:(){
-                        js.context.callMethod('open', [project.githubLink]);
+                      onTap:() async {
+                        if (project.githubLink != null && await canLaunchUrl(Uri.parse(project.githubLink!))) {
+                          await launchUrl(Uri.parse(project.githubLink!));
+                        }
                       }, 
                       child: Image.asset("assets/github.png", width: 19),
                     ),
@@ -113,11 +120,30 @@ class ProjectCardWidget extends StatelessWidget {
                 OverflowBar(
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(project.title),
+                              content: Text(project.detail),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Close'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                       child: const Text(
                         "Read Details",
                         style: TextStyle(
                           color: CustomColor.whitePrimary,
+                          fontSize: 10,
                         ),
                       ),
                     ),
