@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_porfolio/constants/colors.dart';
 import 'package:my_porfolio/constants/size.dart';
+import 'package:my_porfolio/widgets/contact_section.dart';
 import 'package:my_porfolio/widgets/drawer_mobile.dart';
+import 'package:my_porfolio/widgets/footer.dart';
 import 'package:my_porfolio/widgets/header_desktop.dart';
 import 'package:my_porfolio/widgets/header_mobile.dart';
 import 'package:my_porfolio/widgets/main_desktop.dart';
@@ -82,18 +84,13 @@ class _HomePageState extends State<HomePage> {
               //PROJECTS
               const ProjectSection(),
 
+              const SizedBox(height: 30,),
+
               //CONTACT
-              Container(
-                height: 500,
-                width: double.maxFinite,
-                color: Colors.blueGrey,
-              ),
+              const ContactSection(),
 
               //FOOTER
-              Container(
-                height: 500,
-                width: double.maxFinite,
-              ),
+              const Footer(),
             ],
           ));
       }
