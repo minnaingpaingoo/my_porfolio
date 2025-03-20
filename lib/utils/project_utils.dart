@@ -49,7 +49,7 @@ List<ProjectUtils> workProjectUtils=[
   ProjectUtils(
     image: "assets/projects/ucstt_logo.png",
     title: "UCSTT Voting App",
-    subtitle: "A digital voting app designed for UCSTT King & Queen selection events. The app allows users to vote for their favorite participants in a secure, ...",
+    subtitle: "A digital voting app designed for UCSTT King & Queen selection event. The app allows users to vote for their favorite participants in a secure, ...",
     detail: "A digital voting app designed for UCSTT King & Queen selection events. The app allows users to vote for their favorite participants in a secure, transparent, and user-friendly way. Built with Flutter and Firestore, it ensures real-time vote updates, dynamic participant listings, and seamless user experience.",
     githubLink: "https://github.com/minnaingpaingoo/ucstt_voting",
   ),

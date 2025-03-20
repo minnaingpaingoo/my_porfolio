@@ -85,7 +85,7 @@ class ContactSection extends StatelessWidget {
                   await launchUrl(Uri.parse(SnsLinks.github));
                 }          
               },
-              child: Image.asset("github.png", width: 28,)
+              child: Image.asset("assets/github.png", width: 28,)
             ),
             InkWell(
               onTap: () async{
@@ -93,7 +93,7 @@ class ContactSection extends StatelessWidget {
                   await launchUrl(Uri.parse(SnsLinks.linkedin));
                 }
               },
-              child: Image.asset("linkedin.png", width: 28,)
+              child: Image.asset("assets/linkedin.png", width: 28,)
             ),
             InkWell(
               onTap: () async{
@@ -101,7 +101,7 @@ class ContactSection extends StatelessWidget {
                   await launchUrl(Uri.parse(SnsLinks.twitter));
                 }
               },
-              child: Image.asset("twitter.png", width: 28,)
+              child: Image.asset("assets/twitter.png", width: 28,)
             ),
             InkWell(
               onTap: () async{
@@ -109,7 +109,7 @@ class ContactSection extends StatelessWidget {
                   await launchUrl(Uri.parse(SnsLinks.facebook));
                 }
               },
-              child: Image.asset("facebook.png", width: 28,)
+              child: Image.asset("assets/facebook.png", width: 28,)
             ),
             InkWell(
               onTap: () async{
@@ -117,7 +117,7 @@ class ContactSection extends StatelessWidget {
                   await launchUrl(Uri.parse(SnsLinks.instagram));
                 }
               },
-              child: Image.asset("ig.png", width: 28,)
+              child: Image.asset("assets/ig.png", width: 28,)
             ),
             InkWell(
               onTap: () async{
@@ -125,7 +125,7 @@ class ContactSection extends StatelessWidget {
                   await launchUrl(Uri.parse(SnsLinks.telegram));
                 }
               },
-              child: Image.asset("telegram.png", width: 28,)
+              child: Image.asset("assets/telegram.png", width: 28,)
             ),
           ],
         ),
