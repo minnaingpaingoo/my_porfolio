@@ -59,9 +59,9 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 if(constraints.maxWidth >= kMinDesktopWidth)
-                  const MainDesktop()
+                  MainDesktop(onGetInTouch: () => scrollToSection(4))
                 else
-                  const MainMobile(),
+                  MainMobile(onGetInTouch: () => scrollToSection(4)),
                 
                 //SKILLS
                 Container(
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
     final key = navbarKeys[navIndex];
     Scrollable.ensureVisible(
       key.currentContext!,
-      duration: const Duration(microseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }

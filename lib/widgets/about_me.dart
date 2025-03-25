@@ -39,7 +39,7 @@ class AboutMe extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Text(
-          "3. Member\n Collaboration of Kyaik Htee Yoe Pagoda Gorpaga and University of Computer Studies, Thaton\nNovember 2023 – December 2023",
+          "3. Member\n Collaboration of Kyaik Htee Yoe Pagoda Gorpaga and University of Computer Studies, Thaton\n November 2023 – December 2023",
           style: TextStyle(
             fontSize: 16,
             color: CustomColor.whitePrimary,

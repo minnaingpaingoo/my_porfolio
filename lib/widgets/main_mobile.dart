@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_porfolio/constants/colors.dart';
 
 class MainMobile extends StatelessWidget {
-  const MainMobile({super.key});
+  final VoidCallback onGetInTouch;
+  const MainMobile({super.key, required this.onGetInTouch});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class MainMobile extends StatelessWidget {
           SizedBox(
             width: 190,
             child: ElevatedButton(
-              onPressed: (){},
+              onPressed: onGetInTouch,
               child: const Text(
                 "Get In Touch"
               ),
