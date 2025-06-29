@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_porfolio/constants/colors.dart';
 import 'package:my_porfolio/constants/size.dart';
 import 'package:my_porfolio/widgets/about_me_section.dart';
+import 'package:my_porfolio/widgets/back_to_top_button.dart';
 import 'package:my_porfolio/widgets/contact_section.dart';
 import 'package:my_porfolio/widgets/drawer_mobile.dart';
 import 'package:my_porfolio/widgets/footer.dart';
@@ -114,26 +115,7 @@ class _HomePageState extends State<HomePage> {
                 const Footer(),
 
                 //Back To Top Button
-                if(constraints.maxWidth >= kMinDesktopWidth)
-                  const SizedBox(height: 50,),
-                if(constraints.maxWidth >= kMinDesktopWidth)
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          scrollController.animateTo(
-                            0,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut,
-                          );
-                        },
-                        backgroundColor: CustomColor.yellowPrimary,
-                        child: const Icon(Icons.arrow_upward, color: CustomColor.whitePrimary),
-                      ),
-                    ),
-                  ),
+                BackToTopButton(scrollController: scrollController,),
               ],
             ),
           ));
