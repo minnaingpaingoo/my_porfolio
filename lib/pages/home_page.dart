@@ -112,6 +112,28 @@ class _HomePageState extends State<HomePage> {
             
                 //FOOTER
                 const Footer(),
+
+                //Back To Top Button
+                if(constraints.maxWidth >= kMinDesktopWidth)
+                  const SizedBox(height: 50,),
+                if(constraints.maxWidth >= kMinDesktopWidth)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          scrollController.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        backgroundColor: CustomColor.yellowPrimary,
+                        child: const Icon(Icons.arrow_upward, color: CustomColor.whitePrimary),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ));

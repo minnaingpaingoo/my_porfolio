@@ -29,9 +29,10 @@ class MainMobile extends StatelessWidget {
               ).createShader(bounds);
             },
             blendMode: BlendMode.srcATop,
-            child: Image.asset(
-              "assets/avatar.png",
-              width: screenWidth,
+            child:  CircleAvatar(
+              radius: screenWidth/4, // half of width for circle
+              backgroundImage: const AssetImage("assets/my_passport.png"),
+              backgroundColor: Colors.transparent,
             ),
           ),
           const SizedBox(height: 30),

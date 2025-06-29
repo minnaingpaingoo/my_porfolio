@@ -47,9 +47,11 @@ class MainDesktop extends StatelessWidget {
               ),
             ],
           ),
-          Image.asset(
-            "assets/avatar.png",
-            width: screenWidth / 2,
+          // Circular image
+          CircleAvatar(
+            radius: screenWidth / 6, // half of width for circle
+            backgroundImage: const AssetImage("assets/my_passport.png"),
+            backgroundColor: Colors.transparent,
           ),
         ],
       )

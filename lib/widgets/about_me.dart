@@ -60,7 +60,7 @@ class AboutMe extends StatelessWidget {
         SizedBox(height: 20),
         // Add your education details here
         Text(
-          "• Bachelor of Computer Science (B.C.Sc.)\n• University of Computer Studies, Thation\n• December, 2017 - Jaunuary, 2025\n• Relevant Coursework: Mobile App Development, Web Application Development, Database Management Systems, Software Engineering",
+          "• Bachelor of Computer Science (B.C.Sc.)\n• University of Computer Studies, Thaton\n• December, 2017 - January, 2025\n• Passed with 5 Distinctions and Qualified to Proceed to M.C.Sc.\n• Relevant Coursework: Mobile App Development, Web Application Development, Database Management Systems, Software Engineering",
           style: TextStyle(
             fontSize: 16,
             color: CustomColor.whitePrimary,
