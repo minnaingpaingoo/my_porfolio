@@ -34,6 +34,7 @@ class ProfileData {
   final String phone;
   final String location;
   final String footerText;
+  final String selectedTemplate; // 'storybook', 'bento', or 'minimal'
   final List<StatItem> stats;
   final Map<String, String> snsLinks;
 
@@ -51,6 +52,7 @@ class ProfileData {
     this.phone = '',
     this.location = '',
     this.footerText = '',
+    this.selectedTemplate = 'storybook',
     this.stats = const [],
     this.snsLinks = const {},
   });
@@ -69,6 +71,7 @@ class ProfileData {
     String? phone,
     String? location,
     String? footerText,
+    String? selectedTemplate,
     List<StatItem>? stats,
     Map<String, String>? snsLinks,
   }) {
@@ -86,6 +89,7 @@ class ProfileData {
       phone: phone ?? this.phone,
       location: location ?? this.location,
       footerText: footerText ?? this.footerText,
+      selectedTemplate: selectedTemplate ?? this.selectedTemplate,
       stats: stats ?? this.stats,
       snsLinks: snsLinks ?? this.snsLinks,
     );
@@ -106,6 +110,7 @@ class ProfileData {
       'phone': phone,
       'location': location,
       'footerText': footerText,
+      'selectedTemplate': selectedTemplate,
       'stats': stats.map((e) => e.toMap()).toList(),
       'snsLinks': snsLinks,
     };
@@ -145,6 +150,10 @@ class ProfileData {
       phone: (map['phone'] ?? '').toString(),
       location: (map['location'] ?? '').toString(),
       footerText: (map['footerText'] ?? '').toString(),
+      selectedTemplate:
+          (map['selectedTemplate'] ?? 'storybook').toString().trim().isEmpty
+              ? 'storybook'
+              : (map['selectedTemplate'] ?? 'storybook').toString().trim(),
       stats: parsedStats,
       snsLinks: parsedSns,
     );

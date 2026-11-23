@@ -17,6 +17,7 @@ const Map<String, dynamic> kPortfolioSeedDb = {
     "phone": "+959790663667",
     "location": "Myanmar",
     "footerText": "Made by Min Naing Paing Oo with Flutter",
+    "selectedTemplate": "book_reader",
     "stats": [
       {"value": "4+", "label": "Target Platforms"},
       {"value": "9+", "label": "Shipped Projects"},

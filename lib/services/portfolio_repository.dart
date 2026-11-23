@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:my_porfolio/db/portfolio_db.dart';
 import 'package:my_porfolio/models/portfolio_models.dart';
+import 'package:my_porfolio/services/local_storage_stub.dart'
+    if (dart.library.html) 'package:my_porfolio/services/local_storage_web.dart';
 import 'package:my_porfolio/services/picked_image_file.dart';
 import 'package:my_porfolio/utils/project_utils.dart';
 
@@ -21,6 +23,7 @@ class PortfolioRepository extends ChangeNotifier {
 
   static const String appVersion = '2.0.0';
   static const String dbFilePath = 'lib/db/portfolio_db.json';
+  static const String _deviceTemplateStorageKey = 'portfolio_device_template';
 
   /// Dynamic daily passcode formula: (day + 7)(month + 7)(year + 7)
   /// Example: 23/11/2026 -> (23+7)(11+7)(2026+7) -> 30182033
@@ -38,6 +41,7 @@ class PortfolioRepository extends ChangeNotifier {
   User? _firebaseUser;
   String? _statusMessage;
   String? _lastFirestoreError;
+  String? _visitorTemplateOverride;
 
   ProfileData? _profile = const ProfileData();
   CloudinaryConfig? _cloudinaryConfig = const CloudinaryConfig();
@@ -60,6 +64,91 @@ class PortfolioRepository extends ChangeNotifier {
   String? get lastFirestoreError => _lastFirestoreError;
 
   ProfileData get profile => _profile ??= const ProfileData();
+
+  /// Default UI/UX template configured by the Admin in Cloud Firestore:
+  /// 'book_reader', 'storybook', 'bento', or 'minimal'.
+  String get defaultTemplate {
+    final fromProfile = profile.selectedTemplate.trim();
+    return fromProfile.isNotEmpty ? fromProfile : 'book_reader';
+  }
+
+  /// Device-local template chosen by the user from the public user panel.
+  /// Stored only on the user's device (localStorage) and never sent to Firebase.
+  String? get visitorTemplateOverride {
+    final cached = _visitorTemplateOverride;
+    if (cached != null && cached.trim().isNotEmpty) {
+      return cached.trim();
+    }
+    final stored = readDeviceLocalValue(_deviceTemplateStorageKey);
+    if (stored != null && stored.trim().isNotEmpty) {
+      _visitorTemplateOverride = stored.trim();
+      return _visitorTemplateOverride;
+    }
+    return null;
+  }
+
+  bool get hasVisitorTemplateOverride => visitorTemplateOverride != null;
+
+  /// Active UI/UX template ID rendered on this device ('storybook', 'bento', or 'minimal').
+  /// Uses the user's device-local template choice if set; otherwise falls back
+  /// to the Admin's default `selectedTemplate` from Cloud Firestore.
+  String get activeTemplate {
+    final override = visitorTemplateOverride;
+    if (override != null && override.isNotEmpty) {
+      return override;
+    }
+    return defaultTemplate;
+  }
+
+  /// Changes the template ONLY on the user's device (localStorage + memory).
+  /// Does NOT update Firebase / Cloud Firestore.
+  void setVisitorTemplate(String templateId) {
+    final normalized = templateId.trim();
+    if (normalized.isEmpty) return;
+    _visitorTemplateOverride = normalized;
+    writeDeviceLocalValue(_deviceTemplateStorageKey, normalized);
+    notifyListeners();
+  }
+
+  /// Clears the device-local template override so this device follows the
+  /// Admin's default template from Cloud Firestore.
+  void clearVisitorTemplateOverride() {
+    _visitorTemplateOverride = null;
+    writeDeviceLocalValue(_deviceTemplateStorageKey, null);
+    notifyListeners();
+  }
+
+  /// Called ONLY from the Admin Panel to set the global default template in
+  /// Cloud Firestore (`portfolio_config/profile.selectedTemplate`).
+  Future<String> setDefaultTemplateInFirestore(String templateId) async {
+    _visitorTemplateOverride = null;
+    writeDeviceLocalValue(_deviceTemplateStorageKey, null);
+    if (profile.fullName.isEmpty && _isFirebaseAvailable) {
+      await fetchProfileFromFirestore();
+    }
+    _profile = profile.copyWith(selectedTemplate: templateId);
+    notifyListeners();
+
+    if (_isFirebaseAvailable) {
+      try {
+        await FirebaseFirestore.instance
+            .collection('portfolio_config')
+            .doc('profile')
+            .set(
+          {'selectedTemplate': templateId},
+          SetOptions(merge: true),
+        );
+        _lastFirestoreError = null;
+        notifyListeners();
+        return 'Saved default template to Cloud Firestore!';
+      } catch (e) {
+        _recordFirestoreError(e);
+        return 'Updated locally (Firestore notice: $_lastFirestoreError)';
+      }
+    }
+    return 'Default template updated locally.';
+  }
+
   CloudinaryConfig get cloudinaryConfig =>
       _cloudinaryConfig ??= const CloudinaryConfig();
   List<ExperienceItem> get experiences =>

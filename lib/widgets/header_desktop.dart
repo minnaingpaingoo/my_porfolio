@@ -3,6 +3,7 @@ import 'package:my_porfolio/constants/colors.dart';
 import 'package:my_porfolio/constants/nav_items.dart';
 import 'package:my_porfolio/styles/style.dart';
 import 'package:my_porfolio/widgets/site_logo.dart';
+import 'package:my_porfolio/widgets/template_switcher_menu.dart';
 
 class HeaderDesktop extends StatelessWidget {
   const HeaderDesktop({
@@ -92,6 +93,8 @@ class HeaderDesktop extends StatelessWidget {
                           ),
                         ),
                       ),
+                    const SizedBox(width: 6),
+                    const TemplateSwitcherButton(),
                   ],
                 ),
               ),

@@ -3,6 +3,9 @@ import 'package:my_porfolio/constants/colors.dart';
 import 'package:my_porfolio/constants/size.dart';
 import 'package:my_porfolio/services/portfolio_repository.dart';
 import 'package:my_porfolio/styles/style.dart';
+import 'package:my_porfolio/templates/bento_template_view.dart';
+import 'package:my_porfolio/templates/book_reader_template_view.dart';
+import 'package:my_porfolio/templates/minimal_template_view.dart';
 import 'package:my_porfolio/widgets/about_me_section.dart';
 import 'package:my_porfolio/widgets/back_to_top_button.dart';
 import 'package:my_porfolio/widgets/contact_section.dart';
@@ -74,6 +77,19 @@ class _HomePageState extends State<HomePage> {
     return ListenableBuilder(
       listenable: repo,
       builder: (context, _) {
+        final activeTemplate = repo.activeTemplate;
+        if (activeTemplate == 'book_reader') {
+          return BookReaderTemplateView(
+            key: ValueKey(repo.profile.footerText),
+          );
+        }
+        if (activeTemplate == 'bento') {
+          return BentoTemplateView(key: ValueKey(repo.profile.footerText));
+        }
+        if (activeTemplate == 'minimal') {
+          return MinimalTemplateView(key: ValueKey(repo.profile.footerText));
+        }
+
         return LayoutBuilder(
           builder: (context, constraints) {
             // Use desktop header on wide viewports that aren't ultra-short mobile landscape
@@ -168,9 +184,17 @@ class _HomePageState extends State<HomePage> {
                                           height: isMobilePadding ? 28 : 40),
                                       if (constraints.maxWidth >=
                                           kMedDesktopWidth)
-                                        const SkillsDesktop()
+                                        SkillsDesktop(
+                                          key: ValueKey(
+                                            'skills_desktop_${repo.platforms.length}_${repo.skills.length}',
+                                          ),
+                                        )
                                       else
-                                        const SkillsMobile(),
+                                        SkillsMobile(
+                                          key: ValueKey(
+                                            'skills_mobile_${repo.platforms.length}_${repo.skills.length}',
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -184,7 +208,11 @@ class _HomePageState extends State<HomePage> {
                             ContactSection(key: navbarKeys[4]),
 
                             // COLOPHON / FOOTER (with 5-tap secret version number)
-                            const Footer(),
+                            Footer(
+                              key: ValueKey(
+                                'footer_${repo.profile.footerText}_${repo.profile.fullName}',
+                              ),
+                            ),
                           ],
                         ),
                       ),

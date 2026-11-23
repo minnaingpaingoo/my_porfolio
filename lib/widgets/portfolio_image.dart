@@ -4,8 +4,8 @@ import 'package:my_porfolio/constants/colors.dart';
 /// Renders either a bundled Flutter asset (`assets/...`) or a remote network image
 /// (`http://...` or `https://...`) with graceful fallback UI.
 /// Automatically tints dark monochrome icon assets (`web.png`, `ios.png`,
-/// `desktop.png`, `github.png`) to bright `whitePrimary` so they remain
-/// crisp and visible against dark Storybook surfaces.
+/// `desktop.png`, `github.png`) to bright `whitePrimary` on dark surfaces
+/// (or dark charcoal when `forLightSurface: true`).
 class PortfolioImage extends StatelessWidget {
   final String imagePath;
   final double? width;
@@ -14,6 +14,7 @@ class PortfolioImage extends StatelessWidget {
   final BorderRadius? borderRadius;
   final IconData fallbackIcon;
   final Color? color;
+  final bool forLightSurface;
 
   const PortfolioImage({
     super.key,
@@ -24,12 +25,13 @@ class PortfolioImage extends StatelessWidget {
     this.borderRadius,
     this.fallbackIcon = Icons.image_outlined,
     this.color,
+    this.forLightSurface = false,
   });
 
   bool get _isNetwork =>
       imagePath.startsWith('http://') || imagePath.startsWith('https://');
 
-  bool _needsLightTint(String path) {
+  bool _needsMonochromeTint(String path) {
     if (_isNetwork) return false;
     final lower = path.toLowerCase();
     return lower.endsWith('web.png') ||
@@ -41,8 +43,12 @@ class PortfolioImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final trimmed = imagePath.trim();
-    final effectiveColor =
-        color ?? (_needsLightTint(trimmed) ? CustomColor.whitePrimary : null);
+    final effectiveColor = color ??
+        (_needsMonochromeTint(trimmed)
+            ? (forLightSurface
+                ? const Color(0xff0F172A)
+                : CustomColor.whitePrimary)
+            : null);
     Widget child;
 
     if (trimmed.isEmpty) {
@@ -60,7 +66,9 @@ class PortfolioImage extends StatelessWidget {
           return Container(
             width: width,
             height: height,
-            color: CustomColor.bgLight1,
+            color: forLightSurface
+                ? const Color(0xffF1F5F9)
+                : CustomColor.bgLight1,
             alignment: Alignment.center,
             child: const SizedBox(
               width: 22,
@@ -97,11 +105,13 @@ class PortfolioImage extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      color: CustomColor.bgLight1,
+      color: forLightSurface ? const Color(0xffF1F5F9) : CustomColor.bgLight1,
       alignment: Alignment.center,
       child: Icon(
         fallbackIcon,
-        color: CustomColor.yellowSecondary,
+        color: forLightSurface
+            ? const Color(0xff2563EB)
+            : CustomColor.yellowSecondary,
         size: (width != null && width! < 40) ? width! * 0.7 : 32,
       ),
     );

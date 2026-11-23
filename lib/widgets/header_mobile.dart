@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_porfolio/constants/colors.dart';
 import 'package:my_porfolio/styles/style.dart';
 import 'package:my_porfolio/widgets/site_logo.dart';
+import 'package:my_porfolio/widgets/template_switcher_menu.dart';
 
 class HeaderMobile extends StatelessWidget {
   const HeaderMobile({
@@ -22,10 +23,16 @@ class HeaderMobile extends StatelessWidget {
       decoration: kHeaderDecoration,
       child: Row(
         children: [
-          SiteLogo(
-            onTap: onLogoTap,
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: SiteLogo(
+                onTap: onLogoTap,
+              ),
+            ),
           ),
-          const Spacer(),
+          const TemplateSwitcherButton(compact: true),
+          const SizedBox(width: 4),
           IconButton(
             tooltip: "Open Chapters",
             onPressed: onMenuTap,

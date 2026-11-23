@@ -9,6 +9,7 @@ import 'package:my_porfolio/utils/project_utils.dart';
 import 'package:my_porfolio/widgets/cloudinary_image_picker_field.dart';
 import 'package:my_porfolio/widgets/custom_textfield.dart';
 import 'package:my_porfolio/widgets/portfolio_image.dart';
+import 'package:my_porfolio/widgets/template_switcher_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdminPanelPage extends StatefulWidget {
@@ -780,7 +781,130 @@ service cloud.firestore {
               ),
             ],
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 24),
+          // Default Portfolio UI/UX Template Selector Card
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(isMobile ? 18 : 24),
+            decoration: kStoryCardDecoration(
+              backgroundColor: CustomColor.bgLight1,
+              borderRadius: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "DEFAULT PORTFOLIO UI/UX TEMPLATE (CLOUD FIRESTORE)",
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.5,
+                    color: CustomColor.yellowSecondary,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Set Default UI/UX Design Template",
+                  style: TextStyle(
+                    fontSize: isMobile ? 18 : 20,
+                    fontWeight: FontWeight.w800,
+                    color: CustomColor.whitePrimary,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  "Choose the default UI/UX template stored in Cloud Firestore for all visitors. When a user changes the template from the public user panel, that change stays only on their device and does not update Firebase.",
+                  style: TextStyle(
+                    fontSize: 13.5,
+                    color: CustomColor.whiteSecondary,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    for (final tpl in kPortfolioTemplates)
+                      InkWell(
+                        onTap: () async {
+                          final msg = await repo
+                              .setDefaultTemplateInFirestore(tpl.id);
+                          _showToast(
+                            "Default template set to '${tpl.name}' ($msg)",
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(14),
+                        child: Container(
+                          width: isMobile ? double.infinity : 250,
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: repo.defaultTemplate == tpl.id
+                                ? tpl.accentColor.withValues(alpha: 0.14)
+                                : CustomColor.bgLight2,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: repo.defaultTemplate == tpl.id
+                                  ? tpl.accentColor
+                                  : CustomColor.cardBorder,
+                              width: repo.defaultTemplate == tpl.id ? 1.5 : 1,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(9),
+                                decoration: BoxDecoration(
+                                  color:
+                                      tpl.accentColor.withValues(alpha: 0.18),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  tpl.icon,
+                                  color: tpl.accentColor,
+                                  size: 20,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      tpl.name,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w800,
+                                        color: CustomColor.whitePrimary,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      tpl.subtitle,
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: CustomColor.whiteSecondary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (repo.defaultTemplate == tpl.id)
+                                Icon(
+                                  Icons.check_circle_rounded,
+                                  color: tpl.accentColor,
+                                  size: 18,
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
           // Cloud Sync & Seed Card
           Container(
             padding: EdgeInsets.all(isMobile ? 18 : 24),
