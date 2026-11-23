@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 
 List<String> navTitles = [
-  "Home",
-  "Skills",
-  "Projects",
-  "About Me",
-  "Contact",
+  "Prologue",
+  "I · Journey",
+  "II · Arsenal",
+  "III · Chronicles",
+  "Epilogue",
+];
+
+List<String> navSubtitles = [
+  "Developer Cover",
+  "About & Timeline",
+  "Skills & Realms",
+  "Projects & Labs",
+  "Get In Touch",
 ];
 
 List<IconData> navIcons = [
-  Icons.home,
+  Icons.auto_stories_outlined,
+  Icons.timeline_rounded,
   Icons.handyman_outlined,
-  Icons.apps,
-  Icons.info,
-  Icons.quick_contacts_mail,
+  Icons.collections_bookmark_outlined,
+  Icons.mark_email_unread_outlined,
 ];
